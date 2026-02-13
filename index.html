@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anh Nu ❤️ Bé Ni</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b81;
+            --secondary-color: #ff9eb5;
+            --bg-color: #fff0f3;
+            --text-color: #555;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#ffdde1 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
+        }
+
+        .avatar-frame {
+            position: relative;
+            margin: 20px auto;
+            width: 150px;
+            height: 150px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(255, 107, 129, 0.3);
+            object-fit: cover;
+            background-image: url('IMG_20241002_001215.jpg'); 
+            background-size: cover;
+        }
+
+        .heart-beat {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 2rem;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .timer-box {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            text-align: center;
+        }
+
+        .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--secondary-color);
+        }
+
+        .event {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 70px;
+        }
+
+        .event::before {
+            content: '❤';
+            position: absolute;
+            left: 39px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-color);
+            color: var(--primary-color);
+            text-align: center;
+            line-height: 24px;
+            font-size: 14px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            display: flex;
+            align-items: stretch;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .event-img {
+            width: 120px;
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .event-text {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-bottom: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Anh Nu ❤️ Bé Ni</h1>
+
+        <div class="avatar-frame">
+            <img src="IMG_20241002_001215.jpg" alt="Couple" class="avatar">
+            <div class="heart-beat">❤️</div>
+        </div>
+
+        <div class="timer-box" id="timer">
+            <div class="time-unit">
+                <span class="number" id="days">0</span>
+                <span class="label">Ngày</span>
+            </div>
+            <div class="time-unit">
+                <span class="number" id="hours">0</span>
+                <span class="label">Giờ</span>
+            </div>
+            <div class="time-unit">
+                <span class="number" id="minutes">0</span>
+                <span class="label">Phút</span>
+            </div>
+            <div class="time-unit">
+                <span class="number" id="seconds">0</span>
+                <span class="label">Giây</span>
+            </div>
+        </div>
+
+        <p style="margin-top: 20px; font-style: italic;">"Cảm ơn bé vì đã đến bên anh!"</p>
+    </header>
+
+    <div class="timeline-container">
+        <div class="event">
+            <span class="event-date">24/03/2024</span>
+
+            <div class="event-card">
+                <img src="432877199_367046146315176_7649872123390090868_n.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Ngày đầu tiên gặp gỡ</h3>
+                    <p>Anh chạy đi đón bé</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">03/04/2024</span>
+
+            <div class="event-card">
+                <img src="20240402_222800.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Ngày hẹn hò đầu tiên</h3>
+                    <p>Bé viết thiệp mời DAC</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">13/04/2024</span>
+
+            <div class="event-card">
+                <img src="20240413_115814.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Ngày mất nụ hôn đầu</h3>
+                    <p>Bé chủ động hôn anh</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">28/05/2024</span>
+
+            <div class="event-card">
+                <img src="z7528780644207_3b8a3c6ee0bd2b63512f5e255fd5694a.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Sinh nhật tuổi 20 của bé</h3>
+                    <p>Anh tỏ tình, bé xin 3 ngày trả lời</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">01/06/2024</span>
+
+            <div class="event-card">
+                <img src="z7528792665498_02341bfa596f126c61c0648a20823721.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Chính thức bên nhau ❤️</h3>
+                    <p>Bé chấp nhận quen anh</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">19-21/07/2024</span>
+
+            <div class="event-card">
+                <img src="z7528852563961_9177a6faff3cdc2cbe6bafd11d13c71e.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Đài thiên văn Quy Nhơn</h3>
+                    <p>Khoảng thời gian như trong mơ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">29/09/2024</span>
+
+            <div class="event-card">
+                <img src="20240929_195729.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Hội An lần 2</h3>
+                    <p>Sắp chia tay (hụt), bé trao anh một cơ hội mới</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">04/10/2024</span>
+
+            <div class="event-card">
+                <img src="20241006_172259.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Hòa Bắc</h3>
+                    <p>Về miền quê yên bình</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">23/11/2024</span>
+
+            <div class="event-card">
+                <img src="z7529456057409_0743bcff93bf6936dcc16e842d0e3d31.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Sinh nhật anh Nu</h3>
+                    <p>Ngày bé No ra đời</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">22/12/2024</span>
+
+            <div class="event-card">
+                <img src="z7529495029036_d5c7fc8a7604413b2246553383c63cfd.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Hòa Bắc</h3>
+                    <p>Hôm nay lạnh mà chụp quay nhiều</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">31/12/2024-01/01/2025</span>
+
+            <div class="event-card">
+                <img src="z7529503806262_37687e86ba71d2ada82690a69c2e8576.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Đón năm mới ở Huế</h3>
+                    <p>Ăn sập Huế</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">14/02/2025</span>
+
+            <div class="event-card">
+                <img src="z7529518836978_33a091bdbe87263fce13f13182328598.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Valentine ở Hội An</h3>
+                    <p>Bé hỏi sao ngày đặc biệt mình mới đi Hội An</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">30/04-01/05/2025</span>
+
+            <div class="event-card">
+                <img src="z7529524764228_9c93e9c39aece5fe11cb8d81fbb151df.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Đón lễ ở Huế</h3>
+                    <p>Bé giận anh cả buổi</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">07/05/2025</span>
+
+            <div class="event-card">
+                <img src="z7529529962100_1f6cc002002b7cf765315782696cb96f.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Cafe mèo lần đầu</h3>
+                    <p>Bé cute hơn mèo</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">10/05/2025</span>
+
+            <div class="event-card">
+                <img src="z7529536122688_d3f21a016b5f8ddc643f69139b57a5d3.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Nổi hứng mua hamster</h3>
+                    <p>Vác mấy cục nợ về</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">28/05/2025</span>
+
+            <div class="event-card">
+                <img src="" class="event-img" alt="Chê thì thoi hong có ảnh">
+
+                <div class="event-text">
+                    <h3>Sinh nhật tuổi 21 của bé</h3>
+                    <p>Bé thấy bánh kem bé chê</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">01/06/2025</span>
+
+            <div class="event-card">
+                <img src="z7529574152496_eeaa76388ffeedd42f7382a08bf3f8d0.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Kỷ niệm 1 năm yêu nhau</h3>
+                    <p>Bé đăng bé thích hoa anh tặng</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">30/08-02/09/2025</span>
+
+            <div class="event-card">
+                <img src="z7529609645848_0a7ec51b50df7955adde99d741a69fb8.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Huế</h3>
+                    <p>Đi hoài</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">23/11/2025</span>
+
+            <div class="event-card">
+                <img src="z7530291338774_5fbdc119c0125fc171b53d233906bb0b.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Branding Contest</h3>
+                    <p>Quà sinh nhật từ bé</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">30/12/2025</span>
+
+            <div class="event-card">
+                <img src="z7530356912484_cf329ec844b1c129f792e55393156651.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Xóm mèo</h3>
+                    <p>Bé thích con mèo nhỏ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">15/01/2026</span>
+
+            <div class="event-card">
+                <img src="z7530459520334_4ea0a96a404c4511cf791d26923fc213.jpg" class="event-img" alt="Kỷ niệm" style="filter: grayscale(100%);">
+
+                <div class="event-text">
+                    <h3>Chính thức chia tay</h3>
+                    <p>Anh biết anh vẫn còn cơ hội</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">29-30/01/2026</span>
+
+            <div class="event-card">
+                <img src="Không có tiêu đề.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Chia tay òi vẫn đi Huế</h3>
+                    <p>Mình hong vô thành mà đi làng quê đẹp</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <span class="event-date">14/02/2026</span>
+
+            <div class="event-card">
+                <img src="z7530481898552_76a1f76a09428a1470d4d170ed97a8f2.jpg" class="event-img" alt="Kỷ niệm">
+
+                <div class="event-text">
+                    <h3>Valentine hong có bé</h3>
+                    <p>Anh vẫn chờ đợi ngày mình quay lại...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Made with ❤️ by Anh Nu
+    </footer>
+
+    <div class="music-control" onclick="toggleMusic()">
+        🎵
+    </div>
+    
+    <audio id="bgMusic" loop>
+        <source src="TÙNG - XA (CHỜ ĐẾN MÙA GIÓ) - Bản Giao Mùa (OST Ngày Xưa Có Một Chuyện Tình) - TÙNG.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const yourDate = new Date(2024, 5, 1, 0, 0, 0); 
+
+        function refreshTimer() {
+            const now = new Date();
+            const difference = now.getTime() - yourDate.getTime();
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+
+        setInterval(refreshTimer, 1000);
+        refreshTimer();
+
+        const music = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                isPlaying = false;
+                document.querySelector('.music-control').innerText = '🎵';
+            } else {
+                music.play();
+                isPlaying = true;
+                document.querySelector('.music-control').innerText = '⏸️';
+            }
+        }
+    </script>
+</body>
+</html>
